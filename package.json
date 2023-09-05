@@ -1,0 +1,19 @@
+{
+  "name": "ts_purple",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/sollunar/ts_purple.git"
+  },
+  "author": "shamad",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/sollunar/ts_purple/issues"
+  },
+  "homepage": "https://github.com/sollunar/ts_purple#readme"
+}
