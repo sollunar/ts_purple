@@ -15,5 +15,8 @@
   "bugs": {
     "url": "https://github.com/sollunar/ts_purple/issues"
   },
-  "homepage": "https://github.com/sollunar/ts_purple#readme"
+  "homepage": "https://github.com/sollunar/ts_purple#readme",
+  "devDependencies": {
+    "typescript": "^5.2.2"
+  }
 }
