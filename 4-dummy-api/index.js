@@ -1,3 +1,4 @@
+"use strict";
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
     function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
     return new (P || (P = Promise))(function (resolve, reject) {
@@ -34,7 +35,46 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
         if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
     }
 };
-var API = "https://dummyjson.com/users";
+Object.defineProperty(exports, "__esModule", { value: true });
+var API = "https://dummyjsons.com/users";
+function isUsersResponse(data) {
+    if (typeof data === "object" &&
+        !!data &&
+        "users" in data &&
+        "total" in data &&
+        "skip" in data &&
+        "limit" in data) {
+        var _a = data, users = _a.users, total = _a.total, limit = _a.limit, skip = _a.skip;
+        if (Array.isArray(users) &&
+            users.every(function (user) { return isUser(user); }) &&
+            typeof total === "number" &&
+            typeof limit === "number" &&
+            typeof skip === "number") {
+            return true;
+        }
+    }
+    return false;
+}
+function isUser(user) {
+    if (typeof user === "object" &&
+        !!user &&
+        "id" in user &&
+        "username" in user &&
+        "firstName" in user) {
+        var _a = user, username = _a.username, firstName = _a.firstName, id = _a.id;
+        if (typeof username === "string" &&
+            typeof firstName === "string" &&
+            typeof id === "number") {
+            return true;
+        }
+    }
+    return false;
+}
+function assertUserResponse(data) {
+    if (!isUsersResponse(data)) {
+        throw new Error("Response type check failed");
+    }
+}
 function getUsers() {
     return __awaiter(this, void 0, void 0, function () {
         var response, responseData, error_1;
@@ -48,12 +88,13 @@ function getUsers() {
                     return [4 /*yield*/, response.json()];
                 case 2:
                     responseData = _a.sent();
-                    responseData.users.forEach(function (item) { return console.log(item.firstName); });
+                    assertUserResponse(responseData);
+                    console.log(responseData.users.forEach(function (item) { return console.log(item); }));
                     return [3 /*break*/, 4];
                 case 3:
                     error_1 = _a.sent();
                     console.log(error_1);
-                    return [3 /*break*/, 4];
+                    throw new Error("Failed to fetch user data with status ".concat(error_1.status));
                 case 4: return [2 /*return*/];
             }
         });

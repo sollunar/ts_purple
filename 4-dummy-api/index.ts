@@ -1,72 +1,64 @@
-const API = "https://dummyjson.com/users";
+import { IResponseData, IUser } from "./interfaces";
 
-interface IResponseData {
-  users: IUser[];
-  total: number;
-  limit: number;
-  skip: number;
+const API = "https://dummyjsons.com/users";
+
+function isUsersResponse(data: unknown): data is IResponseData {
+  if (
+    typeof data === "object" &&
+    !!data &&
+    "users" in data &&
+    "total" in data &&
+    "skip" in data &&
+    "limit" in data
+  ) {
+    const { users, total, limit, skip } = data as IResponseData;
+    if (
+      Array.isArray(users) &&
+      users.every((user) => isUser(user)) &&
+      typeof total === "number" &&
+      typeof limit === "number" &&
+      typeof skip === "number"
+    ) {
+      return true;
+    }
+  }
+  return false;
 }
 
-interface IUser {
-  id: number;
-  firstName: string;
-  lastName: string;
-  maidenName: string;
-  age: number;
-  gender: string;
-  email: string;
-  phone: string;
-  username: string;
-  password: string;
-  birthDate: string;
-  image: string;
-  bloodGroup: string;
-  height: number;
-  weight: number;
-  eyeColor: string;
-  hair: { color: string; type: string };
-  domain: string;
-  ip: string;
-  address: {
-    address: string;
-    city: string;
-    coordinates: { lat: number; lng: number };
-    postalCode: string;
-    state: string;
-  };
-  macAddress: string;
-  university: string;
-  bank: {
-    cardExpire: string;
-    cardNumber: string;
-    cardType: string;
-    currency: string;
-    iban: string;
-  };
-  company: {
-    address: {
-      address: string;
-      city: string;
-      coordinates: { lat: number; lng: number };
-      postalCode: string;
-      state: string;
-    };
-    department: string;
-    name: string;
-    title: string;
-  };
-  ein: string;
-  ssn: string;
-  userAgent: string;
+function isUser(user: unknown): user is IUser {
+  if (
+    typeof user === "object" &&
+    !!user &&
+    "id" in user &&
+    "username" in user &&
+    "firstName" in user
+  ) {
+    const { username, firstName, id } = user as IUser;
+    if (
+      typeof username === "string" &&
+      typeof firstName === "string" &&
+      typeof id === "number"
+    ) {
+      return true;
+    }
+  }
+  return false;
+}
+
+function assertUserResponse(data: unknown): asserts data is IResponseData {
+  if (!isUsersResponse(data)) {
+    throw new Error("Response type check failed");
+  }
 }
 
 async function getUsers() {
   try {
     const response = await fetch(API);
     const responseData: IResponseData = await response.json();
-    responseData.users.forEach((item) => console.log(item.firstName));
+    assertUserResponse(responseData);
+    console.log(responseData.users.forEach((item) => console.log(item)));
   } catch (error) {
-    console.log(error);
+    throw new Error(`Failed to fetch user data`);
   }
 }
 
