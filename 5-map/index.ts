@@ -9,10 +9,10 @@ export class HashMap {
       const charCode: number = key.charCodeAt(i);
       hash += charCode;
     }
-    return Math.floor(hash / 4)
+    return Math.floor(hash / 4);
   }
 
-  add(key: string, value: any): void {
+  set(key: string, value: any): void {
     const hash: number = this.hash(key);
     const [values, keys] = this.buckets[hash] || [[], []];
     const index = keys.indexOf(key);
@@ -61,5 +61,8 @@ export class HashMap {
     }
     return false;
   }
-}
 
+  clear(): void {
+    this.buckets = [];
+  }
+}
