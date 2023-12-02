@@ -11,19 +11,15 @@ interface IB {
 let objA: IA = { a: 5, b: "" };
 let objB: IB = { a: 10, c: true };
 
-type Difference = Omit<IA, keyof IB>;
-
-type K = keyof Difference;
-
 function difference<
-  A extends Pick<typeof objA, any>,
-  B extends Pick<typeof objB, any>
->(objA: A, objB: B) {
-  const result: Partial<Omit<A, keyof B>> = {};
-  for (const key of Object.keys(objA)) {
-    if (objB.hasOwnProperty(key)) {
-      result[key] = objA[key];
-    }
+  A extends Record<string, any>,
+  B extends Record<string, any>
+>(objA: A, objB: B): Omit<A, keyof B> {
+  const result = { ...objA };
+
+  for (const key of Object.keys(objB)) {
+    delete result[key];
   }
+
   return result;
 }
