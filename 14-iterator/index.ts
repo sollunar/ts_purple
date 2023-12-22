@@ -46,27 +46,19 @@ class BookShelf implements IBookshelf {
     this.books = booksArr;
   }
 
-  sortById(): void {
+  private sort(sortValue: keyof IBook): void {
     this.books = this.books.sort((a, b) => {
-      if (a.id < b.id) {
-        return -1;
-      } else if (a.id == b.id) {
-        return 0;
-      } else {
-        return 1;
-      }
+      if (a[sortValue] < b[sortValue]) return -1;
+      else if (a[sortValue] === b[sortValue]) return 0;
+      else return 1;
     });
   }
+
+  sortById(): void {
+    return this.sort("id");
+  }
   sortByDate(): void {
-    this.books = this.books.sort((a, b) => {
-      if (a.date < b.date) {
-        return -1;
-      } else if (a.date == b.date) {
-        return 0;
-      } else {
-        return 1;
-      }
-    });
+    return this.sort("date");
   }
 
   size(): number {
