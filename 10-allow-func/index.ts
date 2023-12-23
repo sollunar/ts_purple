@@ -1,9 +1,10 @@
-function AllowFunc(func: (value: any) => boolean) {
+function AllowFunc(func: (value: unknown) => boolean) {
   return (target: any, propertyKey: string | symbol): void => {
-    let value: any = target[propertyKey];
+    let value = target[propertyKey];
 
     Object.defineProperty(target, propertyKey, {
-      set: (newValue) => {
+      set: (newValue: unknown) => {
+        if(typeof value !== typeof newValue) {console.log("HEU")}
         if (func(newValue)) {
           value = newValue;
         } else {
@@ -20,7 +21,7 @@ function AllowFunc(func: (value: any) => boolean) {
 }
 
 class User {
-  @AllowFunc((a: number) => a > 0)
+  @AllowFunc((a) => typeof a === 'number' && a > 0)
   age: number = 30;
 }
 
