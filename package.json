@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "test"
+    "test": "jest"
   },
   "repository": {
     "type": "git",
@@ -17,10 +17,16 @@
   },
   "homepage": "https://github.com/sollunar/ts_purple#readme",
   "devDependencies": {
+<<<<<<< HEAD
+    "@types/jest": "^29.5.5",
+    "jest": "^29.7.0",
+    "ts-jest": "^29.1.1",
+=======
     "@types/jest": "^29.5.6",
     "jest": "^29.7.0",
     "ts-jest": "^29.1.1",
     "@types/node": "^20.5.9",
+>>>>>>> main
     "typescript": "^5.2.2"
   }
 }
